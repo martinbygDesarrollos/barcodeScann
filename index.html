@@ -16,16 +16,16 @@
 
 </head>
 <body>
-    <div class="container d-flex flex-column align-items-center mt-5">
+    <div class="container d-flex flex-column align-items-center">
         <!-- Logo -->
         <div class="mb-4">
             <img src="img/logo.png" alt="Logo" class="img-fluid" style="max-width: 200px;">
         </div>
         
         <!-- Formulario -->
-        <div class="w-100" style="max-width: 400px;">
+        <div class="w-75" style="max-width: 400px;">
             <div class="mb-3">
-                <label for="password" class="form-label">Contraseña</label>
+                <!-- <label for="password" class="form-label">Contraseña</label> -->
                 <input type="password" class="form-control" id="password" placeholder="Ingrese su contraseña" onkeypress="if(event.key === 'Enter') sendPass()">
             </div>
             <button type="button" class="btn btn-primary w-100" onclick="sendPass()"> Ingresar </button>

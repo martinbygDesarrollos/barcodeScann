@@ -1,19 +1,34 @@
-const PASS_1 = "kano"
-// PASS_2=ori
-// PASS_3=test
+let PASS_1 = ""
+let TOKEN_1 = ""
+let URL_1 = ""
+let PASS_2 = ""
+let TOKEN_2 = ""
+let URL_2 = ""
 
-const TOKEN_1 = "3EeBg0D6h592AgFCkF8E1sE915"
-// TOKEN_2=Orion0D6h592AgFCkF8E1sE915
-// TOKEN_3=3EeBg0D6h592AgFCkF8E1sE915
-
-const URL_1 = "http://dk.gargano.com.uy/ventas/"
-// URL_2=http://orion.zapto.org/ventas/
-// URL_3=http://dk.gargano.com.uy/ventas/
+let isConfigLoaded = false;
 
 document.addEventListener('deviceready', onDeviceReady, false);
 
 function onDeviceReady() {
     // Cordova is now initialized. Have fun!
+    fetch('config.json')
+      .then(response => {
+        if (!response.ok) throw new Error('Error al cargar la configuración');
+        return response.json();
+      })
+      .then(config => {
+        PASS_1 = config.PASS_1;
+        TOKEN_1 = config.TOKEN_1;
+        URL_1 = config.URL_1;
+        PASS_2 = config.PASS_2;
+        TOKEN_2 = config.TOKEN_2;
+        URL_2 = config.URL_2;
+        isConfigLoaded = true;
+      })
+      .catch(error => {
+        console.error('Error al cargar la configuración:', error);
+        alert('No se pudo cargar la configuración. La aplicación no puede continuar.');
+      });
 
     console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
     document.getElementById('deviceready').classList.add('ready');
@@ -22,7 +37,13 @@ function onDeviceReady() {
 $(document).ready(function() {
     console.log("Ready!!!")    
 });
-function sendPass() {     
+function sendPass() {  
+    
+    if (!isConfigLoaded) {
+        alert('La configuración aún no está cargada. Intente de nuevo más tarde.');
+        return;
+    }
+
     let password = $('#password').val();     
     if (!password) {
         alert('Ingrese la contraseña por favor');         
@@ -36,6 +57,10 @@ function sendPass() {
             TOKEN = TOKEN_1
             URL = URL_1
             break;
+        case PASS_2:
+            TOKEN = TOKEN_2
+            URL = URL_2
+            break;
         default:
             alert('Contraseña invalida');  
             return;       
@@ -45,7 +70,7 @@ function sendPass() {
     // Use Cordova HTTP plugin
     cordova.plugin.http.post(
         URL + 'loginrest.php', 
-        { 
+        {
             token: TOKEN, 
             password: password 
         }, 

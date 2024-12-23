@@ -5,3 +5,7 @@ html, body, .ion-app, .ion-content {
 .container {
     height: 100vh !important;
 }
+
+.container button {
+    font-size: large;
+}
